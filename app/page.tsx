@@ -168,30 +168,33 @@ export default function Home() {
           <p className="mt-2 text-sm text-white/70">
             告诉我们你的企业阶段、写作诉求与期望呈现，我们将提供路线建议与样章试写方案。
           </p>
-          {/* Logo 上传（可选） */}
-          <form
-            className="mt-6 flex items-center gap-3"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const input = (e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement) || null;
-              if (!input || !input.files || !input.files[0]) return;
-              const fd = new FormData();
-              fd.append("file", input.files[0]);
-              await fetch("/api/logo", { method: "POST", body: fd });
-              alert("Logo 已处理为白色并应用，刷新即可查看");
-            }}
-          >
-            <input type="file" accept="image/*" className="text-sm" />
-            <button type="submit" className="h-10 rounded-lg bg-white/10 px-3 text-sm hover:bg-white/15">
-              上传并白色化 Logo
-            </button>
-          </form>
+          {/* 静态站点（GitHub Pages）不支持服务端上传，这里仅在动态环境显示上传入口 */}
+          {process.env.NEXT_PUBLIC_ENABLE_UPLOAD !== "false" && (
+            <form
+              className="mt-6 flex items-center gap-3"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const input = (e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement) || null;
+                if (!input || !input.files || !input.files[0]) return;
+                const fd = new FormData();
+                fd.append("file", input.files[0]);
+                await fetch("/api/logo", { method: "POST", body: fd });
+                alert("Logo 已处理为白色并应用，刷新即可查看");
+              }}
+            >
+              <input type="file" accept="image/*" className="text-sm" />
+              <button type="submit" className="h-10 rounded-lg bg-white/10 px-3 text-sm hover:bg-white/15">
+                上传并白色化 Logo
+              </button>
+            </form>
+          )}
           <form
             className="mt-6 grid gap-4 sm:grid-cols-2"
             onSubmit={(e) => {
               e.preventDefault();
               const form = e.currentTarget as HTMLFormElement;
-              const data = Object.fromEntries(new FormData(form) as any);
+              const formData = new FormData(form);
+              const data = Object.fromEntries(formData.entries());
               fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
