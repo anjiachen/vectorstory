@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/* 屏幕适配与中文排版优化 */
+@theme inline {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    "Source Han Sans SC", "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #0a0a0a;
+  color: #eaeaea;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 霓虹光晕 */
+.glow-spot {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  filter: blur(100px);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.glass {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.container-x {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* 装饰元素：网格、噪点、光束 */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 36px 36px, 36px 36px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  pointer-events: none;
+}
+
+.bg-noise {
+  position: absolute;
+  inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.ray {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 180deg at 50% 50%, rgba(168,85,247,0.22), rgba(79,70,229,0.12), transparent 60%);
+  mask-image: radial-gradient(circle at 50% 10%, black 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* VisualBackdrop 动画元素 */
+.blob {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  filter: blur(80px);
+  opacity: 0.35;
+  border-radius: 9999px;
+  animation: float 16s ease-in-out infinite alternate;
+}
+.blob-a {
+  left: -120px;
+  top: 120px;
+  background: radial-gradient(circle at 30% 30%, rgba(236,72,153,0.7), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(99,102,241,0.6), transparent 60%);
+}
+.blob-b {
+  right: -160px;
+  bottom: -80px;
+  background: radial-gradient(circle at 40% 60%, rgba(20,184,166,0.6), transparent 60%),
+    radial-gradient(circle at 70% 40%, rgba(147,51,234,0.5), transparent 60%);
+  animation-duration: 20s;
+}
+
+.beam {
+  position: absolute;
+  width: 160%;
+  height: 180px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+  mix-blend-mode: screen;
+  filter: blur(6px);
+}
+.beam-left { transform: rotate(-18deg) translateX(-20%); top: 20%; left: -20%; }
+.beam-right { transform: rotate(15deg) translateX(-20%); top: 58%; left: -10%; }
+
+.rings {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 900px;
+  height: 900px;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,0.12) 1px, transparent 2px) 0 0/60px 60px,
+    radial-gradient(circle at center, rgba(255,255,255,0.08) 1px, transparent 2px) 0 0/120px 120px;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+@keyframes float {
+  from { transform: translateY(0px) scale(1); }
+  to { transform: translateY(-30px) scale(1.04); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
